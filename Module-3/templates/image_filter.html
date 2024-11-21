@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}
+🎨 Image Filtering 🖼️
+{% endblock %}
+
+{% block content %}
+<style>
+    /* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styles */
+h1 {
+    color: #4a90e2;
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+h1::before {
+    content: "🎨 ";
+}
+
+h1::after {
+    content: " 🖼️";
+}
+
+/* Form Styles */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+fieldset {
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-size: 1.5em;
+    color: #3f51b5;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #3f51b5;
+    font-size: 1.1em;
+}
+
+input[type="file"] {
+    display: block;
+    margin-top: 10px;
+}
+
+select {
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #4caf50;
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Results Section */
+#form_results {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#form_results img {
+    max-width: 80%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    legend {
+        font-size: 1.2em;
+    }
+
+    input[type="submit"] {
+        font-size: 1.1em;
+    }
+}
+
+</style>
+<h1>🎨 Image Filtering 🖼️</h1>
+<form action="/image_filter" method="POST" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Your Info 📝:</legend>
+        
+        <p>
+            <label>
+                📷 Upload a file here (of file type .jpeg, .jpg, or .gif):
+                <input type="file" name="users_image" accept="image/png, image/jpeg, image/gif">
+            </label>
+        </p>
+        <p>
+            <label>
+                🖌️ Select your filter:
+                <select name="filter_type">
+                    {% for filter_type in filter_types %}
+                    <option value="{{ filter_type }}">{{ filter_type }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </p>
+
+        <input type="submit" value="🔲 Filter My Image! 🔳">
+    </fieldset>
+</form>
+
+{% if image_url %}
+<section id="form_results">
+    <p>Here is your filtered image: 📸</p>
+    <p>
+        <img src="{{ image_url }}" alt="Filtered Image" style="max-width: 100%; border-radius: 10px;">
+    </p>
+</section>
+{% endif %}
+
+{% endblock %}

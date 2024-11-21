@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Animal Facts
+{% endblock %}
+
+{% block content %}
+<style>
+    /* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Header styling */
+h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Form styling */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+fieldset {
+    border: none;
+    font-size: 1rem;
+}
+
+legend {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    color: #333;
+    font-weight: 500;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    background: linear-gradient(90deg, #fbc2eb, #a6c1ee);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(90deg, #a6c1ee, #fbc2eb);
+    transform: scale(1.05);
+}
+
+/* Results Section */
+section#form_results {
+    margin-top: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+section#form_results p {
+    color: #555;
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+section#form_results em {
+    font-size: 1.2rem;
+    color: #ff6f61;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    input[type="submit"] {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+</style>
+<h1>🐾 Animal Facts 🐾</h1>
+<form action="/animal_facts" method="GET">
+    <fieldset>
+        <legend>Your Info 🌟:</legend>
+
+        <label>
+            Which animal do you want facts on?
+
+            <!-- Dynamically generate options using a for loop -->
+            <select name="animal">
+                {% for animal in animals %}
+                    <option value="{{ animal }}" {% if animal == chosen_animal %}selected{% endif %}>
+                        {{ animal }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <input type="submit" value="Get Fact!">
+    </fieldset>
+</form>
+
+<!-- Show the result only if an animal was chosen -->
+{% if fact %}
+<section id="form_results">
+    <p>
+        Here is your animal fact:
+    </p>
+    <p>
+        <em>{{ fact }}</em>
+    </p>
+</section>
+{% elif chosen_animal %}
+<section id="form_results">
+    <p>
+        Sorry, we don't have a fact for "{{ chosen_animal }}."
+    </p>
+</section>
+{% endif %}
+
+{% endblock %}
